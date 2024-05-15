@@ -1,0 +1,120 @@
+程序下载地址：www.19139.cn
+	程序名称：康源CMS
+	程序版本：V1.0.1
+	开发语言：ASP.NET(C#)
+	运行环境：net framework 2.0~3.5
+	程序简介：采用分层架构、插件机制、模板引擎驱动开发模式,能打字就能排版. Sql Server数据库（暂时只有SQL Server数据库,以后将支持MYSQL，ACCESS等数据库），部分功能正在开发中... 当官方有更新时可在后台一键更新升级.
+	技术QQ：335760631 
+	官方网址: http://wapkang.com 
+
+	【安装步骤】：
+	请将该目录上传到你的网站空间根目录
+	然后访问 http://你的域名/install   ,如果提示未找到此页，请将index.aspx设为默认文档 
+	按提示进行安装操作....
+
+	【导入旧版数据】：
+	如果你需要导入康源旧版（ASP版）数据，请将此包内所有文件（包括下级目录文件）上传到你正在运行的康源ASP版程序的同级目录,
+	然后按上述方法访问安装，待安装完成会有导入数据提问，这时你可以按提示选择你要导入的功能数据. 
+	注意:由于网络网速、服务器空间环境等因素，导入过程可能出现停止不动问题，这时你需要刷新安装页面，系统已经记录导入进度！为了确保数据不丢失，请在导入数据前先备份ASP版本的所有网站文件以及数据库!
+	如果导入过程需要帮助，请联系技术员QQ
+
+	【伪静态设置】：
+ 	安装完成后找到文件“common.config”以记事本方式打开，找到IISurlRewrite （在最底部）节点把值0改为1保存
+	设置IIS映射步骤
+		设置IIS映射 wml,xhtml,html,shtml
+		打开IIS》目标网站》属性》主目录》配置》映射》添加
+		可执行文件： c:\windows\microsoft.net\framework\v2.0.50727\aspnet_isapi.dll
+		扩展名： .wml
+		动作： 限制为 GET,HEAD,POST,DEBUG
+		确认文件是否存在： 去掉打钩
+		xhtml,html,shtml 按上述方法添加，如果提示已经存在请找到对应后缀名称更改为上述设置即可
+
+
+	模版排版语法调用说明
+	
+	【友链调用】
+	语法：[call.Link(1-2-3,8,1,-1,60,4,[url=Link/go/{Lid}.Type]{Name}[/url])]
+	分解：括号"Link(...)"中用","分开从1开始数
+	1：1-2-3 分组编号 多个使用-分开 不选分组请留空
+	2：8 获取友链数量
+	3：1 排序方式 1最新进站 2总进站 3今进站 4周进站 5月进站 6最新出站 7总出站 8今出站 9周出站 10月出站 11随机
+	4：-1 是否获取固链 -1不选 1固链 0非固链
+	5：60 缓存时间 单位/秒 建议至少缓存 60秒或以上 不需要缓存请写0
+	6：4 多少个友链换行 如果是1个友链换行请改链接为 [url=/Link/go/{Lid}.Type]{Name}[/url][br]
+	7：链接地址 支持HTML代码,支持的友链信息代码,区分大小写 {csslineid}=CSS编号 {lineid}=序号 {Lid}=友链编号 {Name}=全称 {Shortname}=简称 {Sitelogo}=LOGO {Siteintro}=简介 {Outurl}=网址 {Outcount}=出站总量 {Dayout}=今出站 {Weekout}=周出站 {Monthout}=月出站 {Outdate}=最后出站时间 {Entercount}=进站总量 {Dayenter}=今进站 {Weekenter}=周进站 {Monthenter}=月进站 {Enterdate}=最后进站时间
+
+	【热门版块调用】
+	语法：[call.ForumHot(10,thismonth,300,2,[url=forum/{Bid}.Type]{Name}({Count})[/url])]
+	分解：括号"ForumHot(...)"中用","分开从1开始数
+	1：10 获取版块数量 最多20个
+	2：thismonth 排序方式 thismonth本月发帖+回帖数 today今日发帖+回帖 topics主题数量 posts回帖数量
+	3：300 缓存时间 单位/秒 建议至少缓存 300秒或以上 不需要缓存写0
+	4：2 多少个版块换行 如果是1个版块换行请改链接为 [url=/forum/{Bid}.Type]{Name}({Count})[/url][br]
+	5：链接地址 支持HTML代码,支持的版块信息代码,区分大小写 {csslineid}=CSS编号 {lineid}序号 {Bid}版块编号 {Name}版块名称 {Count}数量
+
+	【帖子调用】
+	语法：[call.Topic(5,1-2-3,newid,all,[url=forum/topic/{Tid}.Type]{Title}[/url])]
+	分解：括号"Topic(...)"中用","分开从1开始数
+	1：5 获取主题数量
+	2：1-2-3 筛选版块编号 多个使用 - 分开 不筛选版块请置空
+	3：newid 排序方式 newid随机 tid最新主题 views点击量 digest精华主题 better推荐强帖 lastuptime最后回复
+	4：all 筛选时间范围 all所有时间 day今天内 threedays三天内 fivedays五天内 week本周内 month本月内 sixmonth六个月内 year本年内
+	5：链接地址 支持的帖子信息代码,区分大小写 {csslineid}=CSS编号 {lineid}=序号 {Tid}=帖子编号 {Title}=帖子标题 {Boardname}=版块名称 {Bid}=版块编号 {Postuser}=作者昵称 {Postuserid}=作者编号 {Lastuser}=最后回复者 {Lastuserid}=最后回复者编号 {Views}=查看数 {Replies}=回帖数 {Lastuptime}=最后回复时间 {Createtime}=发帖时间
+
+	【热门栏目调用】
+	语法：[call.ClassHot(10,thismonth,300,2,[url=contents/{Cid}.Type]{Name}({Count})[/url])]
+	分解：括号"ClassHot(...)"中用","分开从1开始数
+	1：10 获取栏目数量 最多20个
+	2：thismonth 排序方式 thismonth本月发主题+评论数 today今日发主题+评论 topics主题数 posts评论数
+	3：300 缓存时间 单位/秒 建议至少缓存 300秒或以上 不需要缓存写0
+	4：2 多少个栏目换行 如果是1个栏目换行请改链接为 [url=/contents/{Cid}.Type]{Name}({Count})[/url][br]
+	5：链接地址 支持的栏目信息代码,区分大小写 {csslineid}=CSS编号 {lineid}=序号 {Cid}=栏目编号 {Name}=栏目名称 {Count}=数量
+
+	【资源调用】
+	语法：[call.Content(5,1-2-3,newid,all,[url=contents/View/{Seqid}.Type]{Title}[/url])]
+	分解：括号"Content(...)"中用","分开从1开始数
+	1：5 获取主题数量
+	2：1-2-3 筛选栏目编号 多个使用 - 分开 不筛选栏目请置空
+	3：newid 排序方式 newid随机 seqid最新主题 views点击量 digest精华主题 better推荐主题 lastuptime最后评论
+	4：all 筛选时间范围 all所有时间 day今天内 threedays三天内 fivedays五天内 week本周内 month本月内 sixmonth六个月内 year本年内
+	5：链接地址 支持的资源主题信息代码,区分大小写 {csslineid}=CSS编号 {lineid}=序号 {Seqid}=主题编号 {Title}=主题标题 {Classname}=栏目名称 {Classid}=栏目编号 {Poster}=作者昵称 {Posterid}=作者编号 {Views}=查看数 {Replies}=评论数 {Download}=下载数 {Lastuptime}=最后评论时间 {Createtime}=发布时间
+
+	【商城调用】
+	语法：[call.Shop(5,1-2-3,-1,10,[url=shop/goods/{Seqid}.Type]{Name}[/url])]
+	分解：括号"Shop(...)"中用","分开从1开始数
+	1：5 获取商品数量
+	2：1-2-3 筛选商品分类编号 多个使用 - 分开 不筛选分类请置空
+	3：-1 商品类别 -1不选 0普通商品 1推荐的商品
+	4：10 排序方式 0最新 1最早 2价高 3价低 4最高销量 5最低销量 6本周最高销量 7本周最低销量 8本月最高销量 9本月最低销量 10随机
+	5：链接地址 支持的资源主题信息代码,区分大小写 {csslineid}CSS编号 {lineid}序号 {Seqid}商品编号 {Name}主题标题 {Name}商品名称 {Goodspic}商品图片 {Description}商品描述 {Message}详细说明 {Replies}评论数 {Views}查看数 {Price}商品价格(现价) {Marketprice}市场价格 {Sellcount}售出数量 {Weeksell}周售出数量 {Monthsell}月售出数量 {Createtime}入库时间
+
+	【公告调用】
+	语法：[call.Announcement(5,2,[url=announcement/views/{Seqid}.Type][{Starttime}]{Title}[/url][br])]
+	分解：括号"Announcement(...)"中用","分开从1开始数
+	1：5 获取公告数量
+	2：2 筛选类型 1获取全部 2获取正常的公告 3获取未开始的公告
+	3：链接地址 支持的公告信息代码,区分大小写 {csslineid}=CSS编号 {lineid}序号 {Seqid}=公告编号 {Title}=公告标题 {Poster}=发布者名称 {Posterid}=发布者编号 {Starttime}=发表时间 {Views}=查看数 {Message}=公告内容
+
+	【相册调用】
+	语法：[call.Albums(4,2,-1,-1,[url=albums/photoviews/{Uid}/{Cid}/{Seqid}.Type][img]{Small}[/img][/url])]
+	分解：括号"Albums(...)"中用","分开从1开始数
+	1：4 获取照片数量
+	2：2 多少张照片换行
+	3：-1 指定用户编号的照片 -1所有
+	4：-1 指定影集编号的照片 -1所有
+	5：链接地址 支持的照片信息代码,区分大小写 {csslineid}=CSS编号 {lineid}=序号 {Seqid}=照片编号 {Name}=照片名称 {Description}=照片描述 {Nickname}=上传者昵称 {Uid}=上传者编号 {Cid}=所属影集编号 {Size}=照片大小 {Views}=查看次数 {Createtime}=上传时间（N秒前） {Width}=相片宽度 {Height}=相片高度
+
+	【广播调用】
+	语法：[call.Broadcast(1,1,[[url=broadcast.Type]广播[/url]][url=User/Info/{Uid}.Type]{Nickname}({Uid})[/url]:[s]{Message}({Definitetime})[/s][br])]
+	分解：括号"Broadcast(...)"中用","分开从1开始数
+	1：1 获取广播数量
+	2：1 是否随机 1随机抽取未过期的广播 0获取最新未过期的广播
+	3：链接地址 {Seqid}=广播编号 {Title}=广播标题 {Message}=广播内容 {Uid}=发表者编号 {Nickname}=发表者昵称 {Definitetime}=展示时间
+
+	【动作调用】
+	语法：[call.UserAction(5,-1,ALL,[url=User/Info/{Uid}.Type]{Nickname}({Uid})[/url]:[s]{Message}({Createtime})[/s][br])]
+	分解：括号"UserAction(...)"中用","分开从1开始数
+	1：5 获取动作条数
+	2：-1 获取指定用户动作 -1为所有用户
+	3：ALL 获取动作类型 ALL所有动作 Albums相册动作 Forum论坛动作 Contents资源频道动作 Game游戏动作 VisitSpace用户空间动作 VirtualShop 社区商城 Signin 用户签到 Link 友情链接 GameChat 游戏聊室 UserLogin 用户登录 Default其它动作
+	4：链接地址 支持HTML代码,支持的动作信息代码,区分大小写 {csslineid}=CSS编号 {lineid}=序号 {Seqid}=动作编号 {Uid}=用户编号(游客动作将为-1) {Nickname}=用户昵称 {Message}=动作信息 {Createtime}=记录时间

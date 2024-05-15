@@ -1,0 +1,1 @@
+﻿<%@ Page Language="c#" Inherits="Wapkang.Install.InstallAjax" %>
